@@ -14,7 +14,8 @@ class NewsPageView(TemplateView):
         context = super().get_context_data(**kwargs)
         context["news_title"] = "Громкий новостной заголовок"
         context['news_preview'] = 'Предварительное описание, чтоб заманить читателя'
-        context['range'] = range(2,5)
+        context['pages_range'] = range(1, 5)
+        context['article_range'] = range(5)
         context["datetime_obj"] = datetime.now()
         return context
 
@@ -24,7 +25,6 @@ class NewsWithPaginatorView(NewsPageView):
         context = super().get_context_data(page=page, **kwargs)
         context["page_num"] = page
         return context
-
 
 class CoursesPageView(TemplateView):
     template_name = "mainapp/courses_list.html"
