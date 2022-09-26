@@ -8,6 +8,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 
+
 def users_avatars_path(instance, filename):
     # file will be uploaded to
     # MEDIA_ROOT / user_<username> / avatars / <filename>

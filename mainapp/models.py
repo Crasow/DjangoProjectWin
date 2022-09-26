@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 
 
 class News(models.Model):
@@ -23,8 +24,19 @@ class News(models.Model):
         self.deleted = True
         self.save()
 
+    class Meta:
+        verbose_name = _("News")
+        verbose_name_plural = _("News")
+        ordering = ("-created",)
+
+
+class CoursesManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(deleted=False)
+
 
 class Courses(models.Model):
+    objects = CoursesManager()
     name = models.CharField(max_length=256, verbose_name="Name")
     description = models.TextField(
         verbose_name="Description", blank=True, null=True
@@ -75,18 +87,18 @@ class Lesson(models.Model):
         self.deleted = True
         self.save()
 
+    class Meta:
+        ordering = ("course", "num")
 
-class Meta:
-    ordering = ("course", "num")
+    verbose_name = _("Lesson")
+    verbose_name_plural = _("Lessons")
 
 
 class CourseTeachers(models.Model):
     course = models.ManyToManyField(Courses)
     name_first = models.CharField(max_length=128, verbose_name="Name")
     name_second = models.CharField(max_length=128, verbose_name="Surname")
-    day_birth = models.DateField(
-        verbose_name="Birth date", auto_now_add=True, editable=True
-    )
+    day_birth = models.DateField(verbose_name="Birth date")
     deleted = models.BooleanField(default=False)
 
     def __str__(self) -> str:
@@ -97,3 +109,7 @@ class CourseTeachers(models.Model):
     def delete(self, *args):
         self.deleted = True
         self.save()
+
+    class Meta:
+        verbose_name = _("Teacher")
+        verbose_name_plural = _("Teachers")
