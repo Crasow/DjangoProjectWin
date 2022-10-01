@@ -5,27 +5,28 @@ from django.db import migrations
 
 def forwards_func(apps, schema_editor):
     Lesson = apps.get_model("mainapp", "Lesson")
+    Course = apps.get_model("mainapp", "Courses")
 
     Lesson.objects.create(
-        course=0,
+        course=Course.objects.get(id=1),
         num=1,
         title='Start',
         description='Start of learning'
     )
     Lesson.objects.create(
-        course=0,
+        course=Course.objects.get(id=1),
         num=2,
         title='Second',
         description='Second part'
     )
     Lesson.objects.create(
-        course=0,
+        course=Course.objects.get(id=1),
         num=3,
         title='Third',
         description='Third part'
     )
     Lesson.objects.create(
-        course=0,
+        course=Course.objects.get(id=1),
         num=4,
         title='Fourth',
         description='Fourth part'

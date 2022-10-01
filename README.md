@@ -1,3 +1,3 @@
-#Project of Crasow
+# Project of Crasow
 
 My training django project

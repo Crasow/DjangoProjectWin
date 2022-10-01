@@ -1,22 +1,36 @@
 {% extends 'base.html' %}
+
+{% block title %}
+    Новости
+{% endblock title %}
+
 {% block content %}
-{% with pages_range as pages_range  %}
-{% with article_range as article_range %}
+
+
+    {% if page_num %}
+        <div class="card my-2">
+            <div class="card-body">
+                <p class="card-text">Текущая страница: {{ page_num }}</p>
+            </div>
+        </div>
+    {% endif %}
+
 
     <div class="row">
 
         <div class="col-lg-8">
 
-            {% for i in article_range %}
-            <div class="card my-2">
-                <div class="card-body">
-                    <h5 class="card-title">{{ news_title }}</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">
-                        {{ datetime_obj|date:"Y-m-d h-i-s" }}</h6>                    <p class="card-text">{{ news_preview }}</p>
-                    <p class="card-text">{{ news_preview }}</p>
-                    <a href="#" class="card-link">Подробнее</a>
+            {% for item in news_qs %}
+                <div class="card my-2">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ item.title }}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">
+                            {{ item.created|date:"Y-m-d h-i-s" }}</h6>
+                        <p class="card-text">{{ item.preambule }}</p>
+                        <a href="{% url 'mainapp:news_detail' pk=item.pk %}"
+                           class="card-link">Подробнее</a>
+                    </div>
                 </div>
-            </div>
             {% endfor %}
 
         </div>
@@ -55,7 +69,8 @@
                 <li class="page-item"><a class="page-link" href="#">Previous</a></li>
 
                 {% for i in pages_range %}
-                <li class="page-item"><a class="page-link" href="{% url 'mainapp:news_paginator'  i  %}">{{ i }}</a></li>
+                    <li class="page-item"><a class="page-link" href="#">{{ i }}</a></li>
+
                 {% endfor %}
 
                 <li class="page-item"><a class="page-link" href="#">Next</a></li>
@@ -63,6 +78,4 @@
         </nav>
     </div>
 
-{% endwith %}
-{% endwith %}
 {% endblock content %}
